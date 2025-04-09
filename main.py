@@ -12,6 +12,7 @@ from score import Score
 def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    bg_image = pygame.image.load("bg.jpg")
 
     clock = pygame.time.Clock()
     dt = 0
@@ -52,6 +53,7 @@ def main():
                 return
 
         screen.fill(color=((0, 0, 0)))
+        screen.blit(bg_image, (0, 0))
 
         if not menu.game_started:
             menu.draw_start_game(screen)
