@@ -16,11 +16,14 @@ from shot import Shot
 class Player(CircleShape):
     containers = []
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, lifes):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
         self.shoot_cooldown = 0
-        self.lifes = 3
+        self.lifes = lifes
+
+    def set_lifes(self, lifes):
+        self.lifes = lifes
 
     def take_life(self):
         self.lifes -= 1
@@ -28,7 +31,7 @@ class Player(CircleShape):
 
     def set_position(self, x, y):
         self.rotation = 0
-        self.position = (x, y)
+        self.position = pygame.Vector2(x, y)
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
