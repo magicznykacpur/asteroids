@@ -28,11 +28,11 @@ def main():
     Shot.containers = (shots, updatable, drawable)
     Player.containers = (updatable, drawable)
 
-    # AsteroidField()
+    AsteroidField()
 
     score = Score()
     menu = Menu()
-    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 1)
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 3)
 
     while True:
         for event in pygame.event.get():
@@ -45,7 +45,7 @@ def main():
                     asteroids.empty()
                     drawable.empty()
 
-                    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 1)
+                    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 3)
                 elif menu.is_quit_game_clicked(event.pos):
                     return
             if event.type == pygame.QUIT:

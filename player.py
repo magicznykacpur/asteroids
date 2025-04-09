@@ -55,25 +55,45 @@ class Player(CircleShape):
         shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
         self.shoot_cooldown = PLAYER_SHOOT_COOLDOWN
 
-    def update(self, dt):
-        keys = pygame.key.get_pressed()
+    def accelerate(self):
+        self.acceleration_timeout = -0.018
+        if self.acceleration_timeout < 0:
+            self.acceleration += 0.0075
+
+    def move_with_wrap(self, dt, move_forward=True):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         backward = pygame.Vector2(0, -1).rotate(self.rotation)
+
+        if self.position.x > SCREEN_WIDTH:
+            self.position = pygame.Vector2(0, self.position.y)
+            self.accelerate()
+        elif self.position.x < 0:
+            self.position = pygame.Vector2(SCREEN_WIDTH, self.position.y)
+            self.accelerate()
+        elif self.position.y > SCREEN_HEIGHT:
+            self.position = pygame.Vector2(self.position.x, 0)
+            self.accelerate()
+        elif self.position.y < 0:
+            self.position = pygame.Vector2(self.position.x, SCREEN_HEIGHT)
+            self.accelerate()
+        else:
+            if move_forward:
+                self.position += forward * PLAYER_SPEED * self.acceleration * dt
+            else:
+                self.position += backward * PLAYER_SPEED * self.acceleration * dt
+            self.accelerate()
+
+    def update(self, dt):
+        keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a]:
             self.rotate(-dt)
         if keys[pygame.K_d]:
             self.rotate(dt)
         if keys[pygame.K_w]:
-            self.position += forward * PLAYER_SPEED * self.acceleration * dt
-            self.acceleration_timeout = -0.018
-            if self.acceleration_timeout < 0:
-                self.acceleration += 0.0075
+            self.move_with_wrap(dt)
         if keys[pygame.K_s]:
-            self.position += backward * PLAYER_SPEED * self.acceleration * dt
-            self.acceleration_timeout = -0.018
-            if self.acceleration_timeout < 0:
-                self.acceleration += 0.0075
+            self.move_with_wrap(dt, False)
         if keys[pygame.K_SPACE]:
             if self.shoot_cooldown > 0:
                 pass

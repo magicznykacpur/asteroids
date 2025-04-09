@@ -1,8 +1,9 @@
 import random
 import pygame
 from circleshape import CircleShape
-from constants import ASTEROID_MIN_RADIUS
+from constants import ASTEROID_MIN_RADIUS, SCREEN_HEIGHT, SCREEN_WIDTH
 from explosion import Explosion
+from score import Score
 
 
 class Asteroid(CircleShape):
@@ -15,9 +16,18 @@ class Asteroid(CircleShape):
         pygame.draw.circle(screen, "white", self.position, self.radius, 2)
 
     def update(self, dt):
-        self.position += self.velocity * dt
+        if self.position.x > SCREEN_WIDTH + self.radius:
+            self.position = pygame.Vector2(0 - self.radius, self.position.y)
+        elif self.position.x < 0 - self.radius:
+            self.position = pygame.Vector2(SCREEN_WIDTH + self.radius, self.position.y)
+        elif self.position.y > SCREEN_HEIGHT + self.radius:
+            self.position = pygame.Vector2(self.position.x, 0 - self.radius)
+        elif self.position.y < 0 - self.radius:
+            self.position = pygame.Vector2(self.position.x, SCREEN_HEIGHT + self.radius)
+        else:
+            self.position += self.velocity * dt
 
-    def split(self, score):
+    def split(self, score: Score):
         self.kill()
         Explosion(self.position.x, self.position.y, self.radius * 1.25)
 
