@@ -23,26 +23,27 @@ def main():
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = updatable
     Shot.containers = (shots, updatable, drawable)
+    Player.containers = (updatable, drawable)
 
     AsteroidField()
 
-    Player.containers = (updatable, drawable)
     score = Score()
     menu = Menu()
-    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 3)
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 1)
 
-    done = False
-
-    while not done:
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP:
                 if menu.is_start_game_clicked(event.pos):
                     menu.start_game()
                     menu.remove_start_game_rect()
                 elif menu.is_restart_game_clicked(event.pos):
-                    player.set_lifes(3)
-                    player.set_position(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
                     score.reset_score()
+
+                    asteroids.empty()
+                    drawable.empty()
+
+                    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 1)
                 elif menu.is_quit_game_clicked(event.pos):
                     return
             if event.type == pygame.QUIT:
