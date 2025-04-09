@@ -14,15 +14,13 @@ class Menu:
 
     def start_game(self):
         self.game_started = True
+        self.start_game_rect = None
 
     def is_start_game_clicked(self, pos):
         if self.start_game_rect == None:
             return False
         
         return self.start_game_rect.collidepoint(pos[0], pos[1])
-
-    def remove_start_game_rect(self):
-        self.start_game_rect = None
     
     def is_restart_game_clicked(self, pos):
         if self.restart_game_rect == None:

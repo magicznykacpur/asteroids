@@ -2,9 +2,12 @@ import random
 import pygame
 from circleshape import CircleShape
 from constants import ASTEROID_MIN_RADIUS
+from explosion import Explosion
 
 
 class Asteroid(CircleShape):
+    containers = []
+
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
 
@@ -16,6 +19,7 @@ class Asteroid(CircleShape):
 
     def split(self, score):
         self.kill()
+        Explosion(self.position.x, self.position.y, self.radius * 1.25)
 
         if self.radius == ASTEROID_MIN_RADIUS:
             score.update_score(ASTEROID_MIN_RADIUS)

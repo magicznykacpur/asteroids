@@ -2,6 +2,7 @@ import pygame
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from constants import *
+from explosion import Explosion
 from menu import Menu
 from player import Player
 from shot import Shot
@@ -18,10 +19,12 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    explosions = pygame.sprite.Group()
     shots = pygame.sprite.Group()
 
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = updatable
+    Explosion.containers = (explosions, updatable, drawable)
     Shot.containers = (shots, updatable, drawable)
     Player.containers = (updatable, drawable)
 
@@ -36,7 +39,6 @@ def main():
             if event.type == pygame.MOUSEBUTTONUP:
                 if menu.is_start_game_clicked(event.pos):
                     menu.start_game()
-                    menu.remove_start_game_rect()
                 elif menu.is_restart_game_clicked(event.pos):
                     score.reset_score()
 
