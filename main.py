@@ -74,7 +74,7 @@ def main():
             for dr in drawable:
                 dr.draw(screen)
 
-            score.draw(player.lifes, screen)
+            score.draw(player.lifes, screen, player.weapon_type)
 
         pygame.display.flip()
         dt = clock.tick(60) / 1000

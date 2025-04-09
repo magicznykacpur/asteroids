@@ -24,6 +24,7 @@ class Player(CircleShape):
         self.lifes = lifes
         self.acceleration = PLAYER_ACCELERATION
         self.acceleration_timeout = 0
+        self.weapon_type = "pea_shooter"
 
     def set_lifes(self, lifes):
         self.lifes = lifes
@@ -51,7 +52,7 @@ class Player(CircleShape):
         self.rotation += PLAYER_TURN_SPEED * dt
 
     def shoot(self):
-        shot = Shot(self.position.x, self.position.y, SHOT_RADIUS)
+        shot = Shot(self.position.x, self.position.y, SHOT_RADIUS, self.weapon_type)
         shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
         self.shoot_cooldown = PLAYER_SHOOT_COOLDOWN
 
@@ -86,6 +87,12 @@ class Player(CircleShape):
     def update(self, dt):
         keys = pygame.key.get_pressed()
 
+        if keys[pygame.K_1]:
+            self.weapon_type = "pea_shooter"
+        if keys[pygame.K_2]:
+            self.weapon_type = "shotgun"
+        if keys[pygame.K_3]:
+            self.weapon_type = "big_boy"
         if keys[pygame.K_a]:
             self.rotate(-dt)
         if keys[pygame.K_d]:

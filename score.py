@@ -12,11 +12,11 @@ class Score:
     def update_score(self, asteroid_radius):
         self.score += ASTEROID_SCORES[asteroid_radius]
 
-    def draw(self, lifes, screen):
+    def draw(self, lifes, screen, weapon):
         font = pygame.font.SysFont("Arial", 24)
 
         text_surf = font.render(
-            f"Lifes: {lifes}, Score: {self.score}", True, (255, 255, 255)
+            f"Lifes: {lifes}, Score: {self.score}, Weapon: {weapon}", True, (255, 255, 255)
         )
         screen.blit(
             text_surf,
