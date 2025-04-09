@@ -28,7 +28,7 @@ def main():
     Shot.containers = (shots, updatable, drawable)
     Player.containers = (updatable, drawable)
 
-    AsteroidField()
+    # AsteroidField()
 
     score = Score()
     menu = Menu()

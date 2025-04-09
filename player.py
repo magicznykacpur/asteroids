@@ -1,6 +1,7 @@
 import pygame
 from circleshape import CircleShape
 from constants import (
+    PLAYER_ACCELERATION,
     PLAYER_RADIUS,
     PLAYER_SHOOT_COOLDOWN,
     PLAYER_SHOOT_SPEED,
@@ -21,6 +22,8 @@ class Player(CircleShape):
         self.rotation = 0
         self.shoot_cooldown = 0
         self.lifes = lifes
+        self.acceleration = PLAYER_ACCELERATION
+        self.acceleration_timeout = 0
 
     def set_lifes(self, lifes):
         self.lifes = lifes
@@ -62,9 +65,15 @@ class Player(CircleShape):
         if keys[pygame.K_d]:
             self.rotate(dt)
         if keys[pygame.K_w]:
-            self.position += forward * PLAYER_SPEED * dt
+            self.position += forward * PLAYER_SPEED * self.acceleration * dt
+            self.acceleration_timeout = -0.018
+            if self.acceleration_timeout < 0:
+                self.acceleration += 0.0075
         if keys[pygame.K_s]:
-            self.position += backward * PLAYER_SPEED * dt
+            self.position += backward * PLAYER_SPEED * self.acceleration * dt
+            self.acceleration_timeout = -0.018
+            if self.acceleration_timeout < 0:
+                self.acceleration += 0.0075
         if keys[pygame.K_SPACE]:
             if self.shoot_cooldown > 0:
                 pass
@@ -72,3 +81,7 @@ class Player(CircleShape):
                 self.shoot()
 
         self.shoot_cooldown -= dt
+        self.acceleration_timeout += dt
+
+        if self.acceleration_timeout >= 0:
+            self.acceleration = PLAYER_ACCELERATION
