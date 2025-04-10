@@ -6,7 +6,11 @@ class Shot(CircleShape):
     containers = []
 
     def __init__(self, x, y, radius, weapon_type="pea_shooter"):
-        super().__init__(x, y, radius)
+        if weapon_type == "big_boy":
+            super().__init__(x, y, radius * 5)
+        else:
+            super().__init__(x, y, radius)
+
         self.velocity = 0
         self.weapon_type = weapon_type
         self.shotgun_shells: None | tuple = None
@@ -28,9 +32,29 @@ class Shot(CircleShape):
         pygame.draw.circle(screen, "white", self.position, self.radius, 2)
 
     def draw_shotgun(self, screen):
-        pygame.draw.circle(screen, "white", self.position.rotate(300 * 0.015), self.radius, 2),
+        self.shotgun_shells = (
+            CircleShape(
+                self.position.x,
+                self.position.y,
+                self.radius,
+                self.position.rotate(150 * 0.015),
+            ),
+            CircleShape(self.position.x, self.position.y, self.radius, self.position),
+            CircleShape(
+                self.position.x,
+                self.position.y,
+                self.radius,
+                self.position.rotate(-150 * 0.015),
+            ),
+        )
+
+        pygame.draw.circle(
+            screen, "white", self.position.rotate(150 * 0.015), self.radius, 2
+        ),
         pygame.draw.circle(screen, "white", self.position, self.radius, 2),
-        pygame.draw.circle(screen, "white", self.position.rotate(-300 * 0.015), self.radius, 2),
+        pygame.draw.circle(
+            screen, "white", self.position.rotate(-150 * 0.015), self.radius, 2
+        ),
 
     def draw_big_boy(self, screen):
         pygame.draw.circle(screen, "white", self.position, self.radius * 5, 7)

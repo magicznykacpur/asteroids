@@ -64,8 +64,13 @@ def main():
 
             for asteroid in asteroids:
                 for shot in shots:
-                    if asteroid.detect_collision(shot):
-                        asteroid.split(score)
+                    if shot.weapon_type == "shotgun" and shot.shotgun_shells != None:
+                        for shell in shot.shotgun_shells:
+                            if asteroid.detect_collision(shell):
+                                asteroid.split(score)
+                    else:
+                        if asteroid.detect_collision(shot):
+                            asteroid.split(score)
 
             for asteroid in asteroids:
                 if asteroid.detect_collision(player) and player.lifes > 0:
